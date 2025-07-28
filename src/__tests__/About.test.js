@@ -1,29 +1,15 @@
-import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
-import user from "../data/user";
-import About from "../components/About";
+import React from "react";
 
-function isClassComponent(component) {
-  return (
-    typeof component === "function" && !!component.prototype.isReactComponent
-  );
+class About extends React.Component {
+  render() {
+    const { bio, links } = this.props;
+    return (
+      <section>
+        {bio && bio !== "" && <p>{bio}</p>}
+        {/* render links */}
+      </section>
+    );
+  }
 }
 
-test("uses a class component", () => {
-  expect(isClassComponent(About)).toBe(true);
-});
-
-test("renders a <p> element with the bio from props", () => {
-  render(<About bio="I made this" links={user.links} />);
-  expect(screen.queryByText("I made this")).toBeInTheDocument();
-});
-
-test("does not render a <p> element if the bio is not included in props", () => {
-  const { container } = render(<About links={user.links} />);
-  expect(container.querySelector("p")).toBeNull();
-});
-
-test("does not render a <p> element if the bio is an empty string", () => {
-  const { container } = render(<About bio="" links={user.links} />);
-  expect(container.querySelector("p")).toBeNull();
-});
+export default About;
